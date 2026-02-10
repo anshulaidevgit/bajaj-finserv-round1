@@ -7,10 +7,10 @@ import requests
 app = Flask(__name__)
 
 # ==================== CONFIGURATION ====================
-# IMPORTANT: Replace with your actual Chitkara email
+
 OFFICIAL_EMAIL = "anshul3782.beai23@chitkara.edu.in"
 
-# Set this as environment variable: export OPENAI_API_KEY='your_key_here'
+
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 # ==================== HELPER FUNCTIONS ====================
