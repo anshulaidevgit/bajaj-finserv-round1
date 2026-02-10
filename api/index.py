@@ -10,8 +10,8 @@ app = Flask(__name__)
 # IMPORTANT: Replace with your actual Chitkara email
 OFFICIAL_EMAIL = "anshul3782.beai23@chitkara.edu.in"
 
-# Set this as environment variable: export GEMINI_API_KEY='your_key_here'
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+# Set this as environment variable: export OPENAI_API_KEY='your_key_here'
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 
 # ==================== HELPER FUNCTIONS ====================
 
@@ -117,38 +117,41 @@ def calculate_lcm(numbers):
 
 
 def get_ai_response(question):
-    """Get AI response using Google Gemini API"""
+    """Get AI response using OpenAI API"""
     if not isinstance(question, str):
         raise ValueError("AI input must be a string")
     if not question.strip():
         raise ValueError("AI question cannot be empty")
     
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY not configured")
+    if not OPENAI_API_KEY:
+        raise ValueError("OPENAI_API_KEY not configured")
     
     try:
-        # Google Gemini API endpoint
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
+        # OpenAI API endpoint
+        url = "https://api.openai.com/v1/chat/completions"
         
-        headers = {'Content-Type': 'application/json'}
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {OPENAI_API_KEY}'
+        }
         
         payload = {
-            "contents": [{
-                "parts": [{
-                    "text": f"{question}\n\nProvide only a single word answer, nothing else."
-                }]
-            }],
-            "generationConfig": {
-                "temperature": 0.1,
-                "maxOutputTokens": 10
-            }
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                    "role": "user",
+                    "content": f"{question}\n\nProvide only a single word answer, nothing else."
+                }
+            ],
+            "temperature": 0.1,
+            "max_tokens": 10
         }
         
         response = requests.post(url, json=payload, headers=headers, timeout=10)
         
         if response.status_code == 200:
             result = response.json()
-            answer = result['candidates'][0]['content']['parts'][0]['text'].strip()
+            answer = result['choices'][0]['message']['content'].strip()
             # Extract first word
             first_word = answer.split()[0].strip('.,!?;:')
             return first_word
