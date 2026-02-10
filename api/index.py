@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # ==================== CONFIGURATION ====================
 # IMPORTANT: Replace with your actual Chitkara email
-OFFICIAL_EMAIL = "your.email@chitkara.edu.in"
+OFFICIAL_EMAIL = "anshul3782.beai23@chitkara.edu.in"
 
 # Set this as environment variable: export GEMINI_API_KEY='your_key_here'
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
