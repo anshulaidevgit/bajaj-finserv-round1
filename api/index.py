@@ -11,7 +11,7 @@ app = Flask(__name__)
 OFFICIAL_EMAIL = "anshul3782.beai23@chitkara.edu.in"
 
 # Set this as environment variable: export GEMINI_API_KEY='your_key_here'
-GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
+GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 
 # ==================== HELPER FUNCTIONS ====================
 
